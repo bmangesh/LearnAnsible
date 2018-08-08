@@ -1,0 +1,14 @@
+#The file container server list for 3-tier-web application using Nginx-Flask-Mysql
+
+# the list of web servers
+[web_servers]
+mongo1 nginx_port=80
+
+#The list of databases servers
+[db_servers]
+mongo2 db_port=3306
+
+#The list of api servers
+[api_servers]
+mongo3 rest_port=5000
+

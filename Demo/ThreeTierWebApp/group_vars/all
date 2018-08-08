@@ -1,0 +1,11 @@
+# The global variable file 3-Tier-Web Appliaction installation
+
+# Mysql databases details
+app_db=auckland
+db_usr=admin
+db_pass=password
+
+#Flask REST details
+app_usr=admin
+app_pass=password
+app_port=5000
