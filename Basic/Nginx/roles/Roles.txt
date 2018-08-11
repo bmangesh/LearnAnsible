@@ -1,0 +1,4 @@
+Roles
+A role is a collection of tasks and templates (among other things, but those are the most common) focused on one very specific goal. For instance, you can have a role that installs nginx, another that deploys ssh keys for admins, etc…
+
+Nginx role will install and configure nginx. Nothing else. It won’t create DNS entries, trim logs, add a ftp server or anything. It just installs nginx.

@@ -1,0 +1,4 @@
+An inventory is a list of hosts, eventually assembled into groups, on which you will run ansible playbooks. Ansible automatically puts all defined hosts in the aptly named group all.
+
+Inventories can be dynamic. If the inventory file is executable, Ansible will run it and use its output as the inventory (note that, in this case, the format is not the same as static inventory).
+

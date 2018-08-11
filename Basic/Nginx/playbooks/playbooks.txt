@@ -1,0 +1,54 @@
+This is where you basically tell Ansible: please install roles foo, bar and baz on machines alice, bob and charliei with some environment variables.
+
+Playbooks can contain multiple plays. You may have a playbook that targets first the web servers, and then the database servers.
+
+Basics:
+
+Hosts and Users -
+ 		For each play in a playbook, you get to choose which machines in your infrastructure to target and what remote user to complete the steps (called tasks).
+		E.g ---
+		    - hosts: webservers,chacheservers
+		      remote_user: root
+
+
+		Remote users can also be defined per task:
+		E.g ---
+		- hosts: webservers
+ 		  remote_user: root
+  		  tasks:
+		    - name: test connection
+		      ping:
+		      remote_user: mangesh
+
+		Support for running things as another user is also available:
+		E.g ---
+		- hosts: webservers
+  		  remote_user: yourname
+                  become: yes
+
+		You can also use become on a particular task instead of the whole play:
+		E.g ---
+		- hosts: webservers
+		  remote_user: yourname
+		  tasks:
+   		    - service:
+        		name: nginx
+        		state: started
+      		      become: yes
+                      become_method: sudo
+
+		You can also login as you, and then become a user different than root:
+		E.g ---
+		- hosts: webservers
+ 		  remote_user: yourname
+  		  become: yes
+  		  become_user: postgres
+
+	       You can also use other privilege escalation methods, like su:
+		E.g ---
+		- hosts: webservers
+  		  remote_user: mangesh
+        	  become: yes
+  		  become_method: su
+	
+Note** :- If you need to specify a password to sudo, run ansible-playbook with --ask-become-pass or when using the old sudo syntax --ask-sudo-pass (-K). If you run a become playbook and the playbook seems to hang, it’s probably stuck at the privilege escalation prompt. Just Control-C to kill it and run it again adding the appropriate password.	
