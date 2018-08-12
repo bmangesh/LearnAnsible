@@ -1,6 +1,9 @@
 This is where you basically tell Ansible: please install roles foo, bar and baz on machines alice, bob and charliei with some environment variables.
 
 Playbooks can contain multiple plays. You may have a playbook that targets first the web servers, and then the database servers.
+  A. Plays are a set of tasks
+  B. They reside in playbook and typically are applied against a subset of the hosts
+  C. For example, install and configure Nginx on all the web servers.
 
 Basics:
 

@@ -1,0 +1,61 @@
+---
+- name: Setup Webservers
+  hosts: webservers
+
+  tasks:
+#  - name: Install EPEL repo
+#    yum: name=epel-release state=present
+#  - name: Install nginx
+#    yum: name=nginx state=present
+#OR we can use loop to Install multiple pacakages
+  - name: Install Multiple Packages
+    yum: name="{{ item }}" state=present
+    with_items:
+        - epel-release
+        - nginx
+  - name: Flush existing firewall rules
+    iptables:
+      flush: true
+  - name: Firewall rule - allow port 80/HTTP traffic
+    iptables:
+      chain: INPUT
+      destination_port: 80
+      jump: ACCEPT
+      protocol: tcp
+  - name: Creates directory for nginx
+    file: 
+      path: /var/www/example.com/public_html
+      state: directory
+  - name: ansible create multiple directory example
+    file:
+      path: "{{ item }}"
+      state: directory
+
+    with_items:
+      - '/etc/nginx/sites-available'
+      - '/etc/nginx/sites-enabled'
+  - name: Copy nginx.conf to Nginx Server configuration Dir
+    copy:
+      src: nginx.conf
+      dest: /etc/nginx/nginx.conf
+      force: yes
+      backup: yes
+  - name: Copy index.html to Nginx Content serving Dir
+    copy:
+      src: index.html
+      dest: /var/www/example.com/public_html/
+  - name: Copy Domain configuration to Nginx Dir
+    copy:
+      src: example.com.conf
+      dest: /etc/nginx/sites-available/
+  - name: Create symbolic link 
+    file:
+      src: /etc/nginx/sites-available/example.com.conf
+      dest: /etc/nginx/sites-enabled/example.com.conf
+      state: link
+#To Do
+#  - name: check Nginx conf for error
+#    command: nginx -t
+  - name: Start Nginx Service
+    service: name=nginx state=restarted enabled=yes
+
