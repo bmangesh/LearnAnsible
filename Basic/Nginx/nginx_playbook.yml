@@ -1,6 +1,6 @@
 ---
 - name: Setup Webservers
-  hosts: webservers
+  hosts: all
 
   tasks:
 #  - name: Install EPEL repo
