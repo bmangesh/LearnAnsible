@@ -1,0 +1,5 @@
+---
+- name: start mariadb
+  runit:
+    name=mariadb
+    state=started

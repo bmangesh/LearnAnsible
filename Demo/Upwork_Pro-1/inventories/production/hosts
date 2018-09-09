@@ -1,0 +1,14 @@
+[dbserver]
+MariaDB-1
+MariaDB-2
+MariaDB-3
+
+[webserver]
+MariaDB-1
+MariaDB-2
+MariaDB-3
+
+[php]
+MariaDB-1
+MariaDB-2
+MariaDB-3
