@@ -1,0 +1,34 @@
+---
+- name: Install remi repo.
+  yum:
+    name: "{{ remi_repo_url }}"
+    state: present
+
+- name: Import remi GPG key.
+  rpm_key:
+    key: "{{ remi_repo_gpg_key_url }}"
+    state: present
+
+- name: Install yum Utils Package.
+  yum:
+    name: yum-utils
+    state: present
+
+- name: Enable remi-php73 repo  [Install PHP 7.3]
+  shell: yum-config-manager --enable remi-php75
+
+- name: Install PHP 7 with all necessary modules with  packages
+  yum: name="{{ item }}" state=present
+  with_items:
+      - php
+      - php-mcrypt
+      - php-cli
+      - php-gd
+      - php-curl
+      - php-mysql
+      - php-ldap
+      - php-zip
+      - php-fileinfo
+
+- name: Check Installed PHP Version
+  command: php -v

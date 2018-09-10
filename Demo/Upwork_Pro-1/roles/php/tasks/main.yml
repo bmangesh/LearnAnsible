@@ -1,0 +1,25 @@
+---
+- name: Install remi repo.
+  yum:
+    name: "{{ remi_repo_url }}"
+    state: present
+
+- name: Import remi GPG key.
+  rpm_key:
+    key: "{{ remi_repo_gpg_key_url }}"
+    state: present
+
+- name: Install yum Utils Package.
+  yum:
+    name: yum-utils
+    state: present
+
+- name: Enable remi-php73 repo  [Install PHP 7.3]
+  shell: yum --enablerepo  remi-php73 install  php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo php-fpm -y
+
+- name: Copy PHP-FPM configuration file
+  copy: src=../files/www.conf dest=/etc/php-fpm.d/www.conf  owner=root group=root mode=0644
+
+- name: Start php-fpm Service
+  service: name=php-fpm state=restarted enabled=yes
+

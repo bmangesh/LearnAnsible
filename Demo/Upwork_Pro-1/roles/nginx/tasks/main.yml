@@ -1,0 +1,41 @@
+---
+# name: Setup Nginx Server across Cluster
+
+- name: Install Multiple Packages
+  yum: name="{{ item }}" state=present
+  with_items:
+        - epel-release
+
+- name: Install Nginx Server Package
+  yum: name="{{ item }}" state=present 
+  with_items:
+        - nginx
+
+- name: Flush existing firewall rules
+  iptables:
+      flush: true
+- name: Firewall rule - allow port 80/HTTP traffic
+  iptables:
+      chain: INPUT
+      destination_port: 80
+      jump: ACCEPT
+      protocol: tcp
+- name: Creates directory for nginx
+  file: 
+      path: /var/www/example.com/public_html
+      state: directory
+- name: ansible create multiple directory example
+  file:
+      path: "{{ item }}"
+      state: directory
+
+  with_items:
+      - '/etc/nginx/sites-available'
+      - '/etc/nginx/sites-enabled'
+
+- name: Copy default.conf to Nginx Server configuration Dir
+  template: src=../templets/default.conf.j2 dest=/etc/nginx/conf.d/default.conf  owner=root group=root mode=0644
+
+- name: Start Nginx Service
+  service: name=nginx state=restarted enabled=yes
+
