@@ -1,4 +1,4 @@
 [servers]
-MariaDB-1
-MariaDB-2
-MariaDB-3
+server-1
+server-2
+server-3
