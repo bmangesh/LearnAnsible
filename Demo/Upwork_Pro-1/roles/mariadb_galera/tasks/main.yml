@@ -68,18 +68,18 @@
 - name: delete /root/.my.cnf file
   file: path=/root/.my.cnf state=absent
 
-- name: Stop MariaDV Service
+- name: Stop MariaDB Service
   service: name=mariadb state=stopped
-  when: inventory_hostname == "MariaDB-1"
+  when: inventory_hostname == "server-1"
 
 - name: Start Galera on Master
   shell: galera_new_cluster
-  when: inventory_hostname == "MariaDB-1"
+  when: inventory_hostname == "server-1"
 
 - name: restart MariaDB Service on Nodes
   service: name=mariadb state=restarted enabled=yes
-  when: inventory_hostname == "MariaDB-2"
+  when: inventory_hostname == "server-2"
 
 - name: restart MariaDB Service on Nodes
   service: name=mariadb state=restarted enabled=yes
-  when: inventory_hostname == "MariaDB-3"
+  when: inventory_hostname == "server-3"
