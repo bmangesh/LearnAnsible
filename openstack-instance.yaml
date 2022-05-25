@@ -12,7 +12,7 @@
         key_name: bmangesh-devops-key
         nics:
          - net-name: external-network 
-      register: rabbitmq   
+      register: ansible   
     - add_host:
         name: anible
         groups: openstack
