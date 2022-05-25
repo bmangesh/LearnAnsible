@@ -1,0 +1,37 @@
+- name: launch a compute instance
+  hosts: localhost
+  tasks:
+    - name: launch an openstack instance
+      os_server:
+        state: present
+        name: bmangesh-devops
+        image: CENTOS-7
+        timeout: 200
+        flavor: micro
+        security_groups: bmangesh-devops-secgrp
+        key_name: bmangesh-devops-key
+        nics:
+         - net-name: external-network 
+      register: rabbitmq   
+    - add_host:
+        name: anible
+        groups: openstack
+        ansible_host: "{{ansible.server.public_v4}}"
+        ansible_user: centos
+        ansible_become: true
+    - name: Wait for 22 port to respond 
+      wait_for:
+       port: 22
+       delay: 30
+
+- hosts: ansible
+  remote_user: centos
+  become: yes
+  roles:
+    - mariadb
+  tasks:
+    - name: print instance ip address
+      command: hostname
+    - debug:
+        msg: " {{ ansible_default_ipv4.address }}" 
+
